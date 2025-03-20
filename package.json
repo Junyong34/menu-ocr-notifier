@@ -34,8 +34,12 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.10",
     "axios": "^1.8.3",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "kraken": "^1.0.1",
+    "node-cron": "^3.0.3",
+    "tesseract.js": "^6.0.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.2"
   },
