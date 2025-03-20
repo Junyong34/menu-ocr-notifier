@@ -36,5 +36,5 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 // 서버 시작
 app.listen(PORT, () => {
   console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-  console.log(`Webhook 엔드포인트: http://localhost:${PORT}/webhook/bitbucket`);
+  console.log(`Webhook 엔드포인트: http://localhost:${PORT}`);
 });
