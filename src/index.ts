@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
+import menuRoutes from './routes/menuRoutes';
 
 // 환경 변수 로드
 dotenv.config();
@@ -15,6 +16,9 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 
 // JSON 요청 본문 파싱 미들웨어
 app.use(express.json());
+
+// 라우트 등록
+app.use('/api', menuRoutes);
 
 // 기본 라우트
 app.get('/', (_req: Request, res: Response) => {
@@ -37,4 +41,7 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 app.listen(PORT, () => {
   console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
   console.log(`Webhook 엔드포인트: http://localhost:${PORT}`);
+  console.log(
+    `주간 메뉴 API 엔드포인트: http://localhost:${PORT}/api/weekly-menu`,
+  );
 });
