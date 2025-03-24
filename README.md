@@ -46,10 +46,15 @@ pnpm install
 .env 파일에 다음 값을 설정합니다.
 
 ```ini
+PORT=3000
+IMAGE_API_URL=https://api-url.example.com
 OPENAI_API_KEY=your_openai_api_key
 GEMINI_API_KEY=your_gemini_api_key
 OCR_SPACE_API_KEY=your_ocr_space_api_key
 SLACK_WEBHOOK_URL=your_slack_webhook_url
+DISCORD_WEBHOOK_URL=your_discord_webhook_url
+KRAKEN_API_KEY=your_kraken_api_key
+KRAKEN_API_SECRET=your_kraken_api_secret
 ```
 
 ### 3. 시작
@@ -78,6 +83,19 @@ pnpm start
 - 두 가지 메시지 포맷 지원:
   1. 표준 형식(attachments): 메뉴 정보를 색상과 필드를 이용하여 표시
   2. 마크다운 형식(blocks): 리치 텍스트 마크다운을 활용한 더 현대적인 디자인
+
+### 메뉴 파서 서비스 개선
+
+- `menuParserService.ts` 파일에 주요 기능 추가:
+  - JSON 형식의 메뉴 데이터 파싱 기능 강화
+  - 요일별 메뉴 데이터 추출 로직 향상
+  - 메뉴 배열의 효율적인 문자열 변환 기능
+  - 날짜 포맷팅 기능 구현
+
+### 버튼 액션 추가
+
+- Slack 메시지 인터페이스 `SlackMenuMessageType1`에 `actions` 속성 추가
+- 주간식단표 보러가기 버튼을 메시지 하단에 직접 추가하여 사용자 편의성 향상
 
 ## 관련 링크
 
