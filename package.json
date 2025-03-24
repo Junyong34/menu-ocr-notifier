@@ -14,7 +14,8 @@
     "test": "ts-node src/scripts/testMenuAnalysis.ts",
     "test:slack": "ts-node src/scripts/testMenuAnalysis.ts --slack-test",
     "test:slack:standard": "ts-node src/scripts/testMenuAnalysis.ts --slack-test --only-standard",
-    "test:slack:markdown": "ts-node src/scripts/testMenuAnalysis.ts --slack-test --only-markdown"
+    "test:slack:markdown": "ts-node src/scripts/testMenuAnalysis.ts --slack-test --only-markdown",
+    "test:tesseract": "ts-node src/scripts/testTesseract.ts"
   },
   "lint-staged": {
     "*.{ts,js}": [
