@@ -44,4 +44,10 @@ app.listen(PORT, () => {
   console.log(
     `주간 메뉴 API 엔드포인트: http://localhost:${PORT}/api/weekly-menu`,
   );
+  console.log(
+    `Slack 메뉴 전송 API 엔드포인트: http://localhost:${PORT}/api/send-menu-to-slack`,
+  );
+  console.log(
+    `마크다운 Slack 메뉴 전송 API 엔드포인트: http://localhost:${PORT}/api/send-markdown-menu-to-slack`,
+  );
 });
