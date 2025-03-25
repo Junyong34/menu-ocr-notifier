@@ -70,32 +70,20 @@ pnpm start
 - **Scheduler**: node-cron
 - **AI API**: OpenAI, Google Gemini
 
-## 최근 업데이트
-
 ### Gemini API 통합
 
 - Google의 Gemini API를 사용하여 메뉴 텍스트 분석 기능 추가
 - 메뉴 데이터를 구조화된 JSON 형식으로 변환하여 더 정확한 메뉴 정보 제공
 
-### Slack 메시지 포맷 개선
+## 이미지 처리 및 알림 전송
 
-- Slack 메시지 타입 인터페이스 수정: `SlackMenuMessageType1`에 `actions` 속성 추가
-- 두 가지 메시지 포맷 지원:
-  1. 표준 형식(attachments): 메뉴 정보를 색상과 필드를 이용하여 표시
-  2. 마크다운 형식(blocks): 리치 텍스트 마크다운을 활용한 더 현대적인 디자인
+![주간식단표](./src/image/menu.jpg)
 
-### 메뉴 파서 서비스 개선
+식단표 이미지를 OCR과 LLM을 통해 처리하여
+![주간식단표](./src/image/slack_msg.png)
+결과를 Slack에 알림으로 전송합니다.
 
-- `menuParserService.ts` 파일에 주요 기능 추가:
-  - JSON 형식의 메뉴 데이터 파싱 기능 강화
-  - 요일별 메뉴 데이터 추출 로직 향상
-  - 메뉴 배열의 효율적인 문자열 변환 기능
-  - 날짜 포맷팅 기능 구현
-
-### 버튼 액션 추가
-
-- Slack 메시지 인터페이스 `SlackMenuMessageType1`에 `actions` 속성 추가
-- 주간식단표 보러가기 버튼을 메시지 하단에 직접 추가하여 사용자 편의성 향상
+이 기능은 사용자가 매일의 식단 정보를 쉽게 확인할 수 있도록 제공합니다.
 
 ## 관련 링크
 

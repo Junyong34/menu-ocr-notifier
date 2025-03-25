@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 
 // Gemini 로고 경로
 const geminiLogo =
-  'https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg';
+  'https://registry.npmmirror.com/@lobehub/icons-static-png/1.41.0/files/light/gemini-color.png';
 
 interface SlackMenuItem {
   title: string;
