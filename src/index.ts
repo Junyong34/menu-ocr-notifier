@@ -8,6 +8,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// 서버 인스턴스를 저장할 변수 선언
+let server: any;
+
 // 요청 로깅 미들웨어
 app.use((req: Request, _res: Response, next: NextFunction) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
@@ -19,6 +22,33 @@ app.use(express.json());
 
 // 라우트 등록
 app.use('/api', menuRoutes);
+
+// 서버 종료 API 엔드포인트
+app.get('/server-kill', (_req: Request, res: Response) => {
+  const key = _req.query.key; // 쿼리 파라미터에서 키 가져오기
+  const validKey = process.env.SERVER_KILL_KEY; // 환경 변수에서 유효한 키 가져오기
+  if (key !== validKey) {
+    res.status(403).send('서버 종료 권한이 없습니다.'); // 권한이 없을 경우
+    return;
+  }
+
+  res.send('서버를 종료합니다...');
+  console.log('서버 종료 요청을 받았습니다...');
+
+  // 1초 후에 서버 종료 (응답을 보내기 위한 지연)
+  setTimeout(() => {
+    console.log('server', server);
+    if (server) {
+      server.close(() => {
+        console.log('서버가 정상적으로 종료되었습니다.');
+        process.exit(0);
+      });
+    } else {
+      console.log('서버 인스턴스를 찾을 수 없습니다.');
+      process.exit(1);
+    }
+  }, 1000);
+});
 
 // 기본 라우트
 app.get('/', (_req: Request, res: Response) => {
@@ -38,7 +68,7 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 // 서버 시작
-app.listen(PORT, () => {
+server = app.listen(PORT, () => {
   console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
   console.log(`Webhook 엔드포인트: http://localhost:${PORT}`);
   console.log(
@@ -49,5 +79,8 @@ app.listen(PORT, () => {
   );
   console.log(
     `마크다운 Slack 메뉴 전송 API 엔드포인트: http://localhost:${PORT}/api/send-markdown-menu-to-slack`,
+  );
+  console.log(
+    `서버 종료 API 엔드포인트: http://localhost:${PORT}/server-kill?key=`,
   );
 });

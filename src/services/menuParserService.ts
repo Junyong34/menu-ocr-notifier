@@ -3,6 +3,12 @@
  * Gemini API로부터 받은 텍스트를 Slack 메시지 형식으로 변환
  */
 
+import dayjs from 'dayjs';
+
+// Gemini 로고 경로
+const geminiLogo =
+  'https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg';
+
 interface SlackMenuItem {
   title: string;
   value: string;
@@ -24,6 +30,7 @@ export interface SlackMenuMessageType1 {
     type?: string;
     url?: string;
     action_id?: string;
+    ts?: string;
     buttonText?: {
       type: string;
       text: string;
@@ -98,7 +105,7 @@ function getTodayMenuFromJson(jsonText: string): {
     const menuData = JSON.parse(jsonMatch[0]) as MenuData;
 
     // 오늘 날짜에 맞는 요일 구하기 (0: 일요일, 1: 월요일, ..., 6: 토요일)
-    const today = new Date().getDay();
+    const today = dayjs().day();
 
     // 주말인 경우 (토요일, 일요일)
     if (today === 0 || today === 6) {
@@ -155,13 +162,13 @@ function formatMenuArray(menuArray: string[] | null): string {
  * @param date 날짜 객체
  * @returns 포맷팅된 날짜 문자열 (YYYY년 MM월 DD일 요일)
  */
-function formatDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+function formatDate(date: dayjs.Dayjs): string {
+  const year = date.year();
+  const month = date.month() + 1;
+  const day = date.date();
 
   const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-  const dayName = dayNames[date.getDay()];
+  const dayName = dayNames[date.day()];
 
   return `${year}년 ${month}월 ${day}일 (${dayName}) `;
 }
@@ -186,7 +193,7 @@ export function parseMenuTextToSlackFormat(
     attachments: [
       {
         color: '#ffffff',
-        pretext: `📩 ${formatDate(new Date())} 오늘의 메뉴가 도착했습니다.`,
+        pretext: `📩 ${formatDate(dayjs())} 오늘의 메뉴가 도착했습니다.`,
       },
     ],
   };
@@ -247,16 +254,15 @@ export function parseMenuTextToSlackFormat(
       });
     }
 
-    // 푸터 추가
-    // slackMessage.attachments.push({
-    //   actions: [
-    //     {
-    //       type: 'button',
-    //       text: '주간식단표 보러가기',
-    //       url: imageUrl,
-    //     },
-    //   ],
-    // });
+    // footer format 추가
+    // footer 추가
+    slackMessage.attachments[slackMessage.attachments.length - 1].footer =
+      'Powered by Gemini';
+    slackMessage.attachments[slackMessage.attachments.length - 1].footer_icon =
+      geminiLogo;
+    slackMessage.attachments[slackMessage.attachments.length - 1].ts = dayjs()
+      .unix()
+      .toString();
   } else {
     // 주말이거나 메뉴 정보가 없는 경우
     slackMessage.attachments.push({
@@ -265,15 +271,13 @@ export function parseMenuTextToSlackFormat(
     });
 
     // 푸터 버튼 추가
-    // slackMessage.attachments.push({
-    //   actions: [
-    //     {
-    //       type: 'button',
-    //       text: '주간식단표 보러가기',
-    //       url: imageUrl,
-    //     },
-    //   ],
-    // });
+    slackMessage.attachments[slackMessage.attachments.length - 1].footer =
+      'Powered by Gemini';
+    slackMessage.attachments[slackMessage.attachments.length - 1].footer_icon =
+      geminiLogo;
+    slackMessage.attachments[slackMessage.attachments.length - 1].ts = dayjs()
+      .unix()
+      .toString();
   }
 
   return slackMessage;
@@ -305,7 +309,7 @@ export function parseMenuTextToMarkdownSlackFormat(
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `*📩 ${formatDate(new Date())} 오늘의 메뉴가 도착했습니다.*`,
+        text: `*📩 ${formatDate(dayjs())} 오늘의 메뉴가 도착했습니다.*`,
       },
     },
     {
