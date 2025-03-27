@@ -17,8 +17,8 @@ export const startCronJob = async (
   try {
     if (scheduledTask === null) {
       scheduledTask = await cron.schedule(
-        // 1분마다 실행
-        '*/1 * * * *',
+        // 주말빼고, 매 6시 00분 실행
+        '0 6 * * 1-5',
         async () => {
           console.log('월요일 7시 실행');
           try {
