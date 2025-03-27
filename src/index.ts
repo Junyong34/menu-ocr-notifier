@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
-import menuRoutes from './routes/menuRoutes';
+import rootRoute from './routes';
 
 // 환경 변수 로드
 dotenv.config();
@@ -21,7 +21,7 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 app.use(express.json());
 
 // 라우트 등록
-app.use('/api', menuRoutes);
+app.use('/api', rootRoute);
 
 // 서버 종료 API 엔드포인트
 app.get('/server-kill', (_req: Request, res: Response) => {
@@ -70,17 +70,23 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 // 서버 시작
 server = app.listen(PORT, () => {
   console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-  console.log(`Webhook 엔드포인트: http://localhost:${PORT}`);
+  console.log('\n=== API 엔드포인트 목록 ===');
+  console.log('기본 엔드포인트:');
+  console.log(`  - Webhook: http://localhost:${PORT}`);
+  console.log(`  - 서버 종료: http://localhost:${PORT}/server-kill?key=`);
+
+  console.log('\n메뉴 관련 엔드포인트:');
   console.log(
-    `주간 메뉴 API 엔드포인트: http://localhost:${PORT}/api/weekly-menu`,
+    `  - 주간 메뉴 조회: http://localhost:${PORT}/api/menu/weekly-menu`,
   );
   console.log(
-    `Slack 메뉴 전송 API 엔드포인트: http://localhost:${PORT}/api/send-menu-to-slack`,
+    `  - Slack 메뉴 전송: http://localhost:${PORT}/api/menu/send-menu-to-slack`,
   );
   console.log(
-    `마크다운 Slack 메뉴 전송 API 엔드포인트: http://localhost:${PORT}/api/send-markdown-menu-to-slack`,
+    `  - 마크다운 Slack 메뉴 전송: http://localhost:${PORT}/api/menu/send-markdown-menu-to-slack`,
   );
-  console.log(
-    `서버 종료 API 엔드포인트: http://localhost:${PORT}/server-kill?key=`,
-  );
+
+  console.log('\nCron 관련 엔드포인트:');
+  console.log(`  - Cron 시작: http://localhost:${PORT}/api/cron/start`);
+  console.log(`  - Cron 중지: http://localhost:${PORT}/api/cron/stop`);
 });
