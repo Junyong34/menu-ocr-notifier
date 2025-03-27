@@ -1,4 +1,4 @@
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3890';
+const BASE_URL = process.env.BASE_URL || 'http://localhost';
 const PORT = process.env.PORT || 3890;
 export const API_ENDPOINTS = {
   CRON: {
