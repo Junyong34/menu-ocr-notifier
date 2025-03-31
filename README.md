@@ -46,7 +46,7 @@ pnpm install
 .env 파일에 다음 값을 설정합니다.
 
 ```ini
-PORT=3000
+PORT=3890
 IMAGE_API_URL=https://api-url.example.com
 OPENAI_API_KEY=your_openai_api_key
 GEMINI_API_KEY=your_gemini_api_key
@@ -55,6 +55,7 @@ SLACK_WEBHOOK_URL=your_slack_webhook_url
 DISCORD_WEBHOOK_URL=your_discord_webhook_url
 KRAKEN_API_KEY=your_kraken_api_key
 KRAKEN_API_SECRET=your_kraken_api_secret
+SERVER_KILL_KEY=your_server_kill_key
 ```
 
 ### 3. 시작
@@ -62,6 +63,47 @@ KRAKEN_API_SECRET=your_kraken_api_secret
 ```sh
 pnpm start
 ```
+
+## Docker를 통한 실행
+
+### Docker Compose 실행
+
+1. 프로젝트 루트 디렉토리에 있는 `docker-compose.yml` 파일을 사용하여 서비스를 시작합니다:
+
+```sh
+docker-compose up -d
+```
+
+이 명령어는 다음 과정을 수행합니다:
+
+- TypeScript 코드 빌드
+- 서버 시작
+- 자동으로 cron 작업 시작
+
+2. 로그 확인:
+
+```sh
+docker-compose logs -f
+```
+
+3. 서비스 중지:
+
+```sh
+docker-compose down
+```
+
+### 환경 설정
+
+도커 컴포즈 실행 시 다음 환경 변수가 사용됩니다:
+
+- `PORT=3890`: 서버가 컨테이너 내부에서 실행되는 포트
+- `NODE_ENV=production`: 프로덕션 모드로 실행
+
+외부에서는 포트 3000으로 서비스에 접근할 수 있습니다 (포트 매핑: 3000:3890).
+
+### 로그 저장
+
+로그 파일은 호스트의 `./logs` 디렉토리에 마운트됩니다.
 
 ## 개발 환경
 
