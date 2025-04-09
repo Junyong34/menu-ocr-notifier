@@ -9,5 +9,6 @@ services:
     environment:
       - PORT=3890
       - NODE_ENV=production
+      - TZ=Asia/Seoul
     volumes:
       - ./logs:/app/logs

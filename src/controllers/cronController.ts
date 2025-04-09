@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import cron from 'node-cron';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../constants/apiEndpoints';
-
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko'; // 한국어 로케일 추가
+import { formatDate } from '../services/menuParserService';
 interface CronTask {
   start: () => void;
   stop: () => void;
@@ -20,7 +22,7 @@ export const startCronJob = async (
         // 주말빼고, 매 6시 00분 실행
         '0 6 * * 1-5',
         async () => {
-          console.log('월요일 7시 실행');
+          // console.log('월요일 7시 실행');
           try {
             await axios.get(API_ENDPOINTS.MENU.SEND_TO_SLACK);
             console.log('메뉴 전송 API 호출 성공');
@@ -34,6 +36,10 @@ export const startCronJob = async (
       );
 
       scheduledTask!.start();
+      const now = dayjs().locale('ko'); // 현재 시간, 한국어 로케일 적용
+      console.log(`[${formatDate(now)}}] 메뉴 전송 API 호출 시작`);
+      console.log(`[${formatDate(dayjs())}}] 메뉴 전송 API 호출 시작2`);
+
       res.status(200).json({ message: 'cron 스케줄러가 시작되었습니다.' });
     } else {
       res.status(400).json({ message: '이미 cron 스케줄러가 동작 중입니다.' });

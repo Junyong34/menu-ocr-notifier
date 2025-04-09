@@ -4,6 +4,12 @@
  */
 
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+// dayjs.tz.setDefault('Asia/Seoul'); // 이 줄을 추가합니다.
 
 // Gemini 로고 경로
 const geminiLogo =
@@ -162,7 +168,7 @@ function formatMenuArray(menuArray: string[] | null): string {
  * @param date 날짜 객체
  * @returns 포맷팅된 날짜 문자열 (YYYY년 MM월 DD일 요일)
  */
-function formatDate(date: dayjs.Dayjs): string {
+export function formatDate(date: dayjs.Dayjs): string {
   const year = date.year();
   const month = date.month() + 1;
   const day = date.date();
