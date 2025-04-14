@@ -32,7 +32,9 @@ async function analyzeMenuImage(imageUrl: string): Promise<string> {
     console.log('이미지를 Base64로 변환했습니다.');
 
     // Gemini 모델 설정
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.5-pro-exp-03-25',
+    });
 
     // 프롬프트 설정
     const prompt =
