@@ -72,6 +72,7 @@ pnpm start
 
 ```sh
 docker-compose up -d
+# docker compose up --build
 ```
 
 이 명령어는 다음 과정을 수행합니다:

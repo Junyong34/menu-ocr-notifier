@@ -33,7 +33,7 @@ async function analyzeMenuImage(imageUrl: string): Promise<string> {
 
     // Gemini 모델 설정
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-pro-exp-03-25',
+      model: 'gemini-2.5-pro-preview-05-06',
     });
 
     // 프롬프트 설정
